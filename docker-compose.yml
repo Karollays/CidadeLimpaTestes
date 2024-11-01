@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  app:
+    image: karolinelays2021/cidadelimpa:latest
+    container_name: cidadelimpa-app
+    ports:
+      - "8080:8080"
+    environment:
+      # Configurações de conexão com o banco de dados Oracle
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
+      SPRING_DATASOURCE_USERNAME: RM552335
+      SPRING_DATASOURCE_PASSWORD: 050698
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: oracle.jdbc.OracleDriver
+
+      # Configurações do Flyway
+      SPRING_FLYWAY_BASELINE_ON_MIGRATE: 'true'
+      SPRING_FLYWAY_LOCATIONS: classpath:db/migration
+      SPRING_FLYWAY_CONNECT_RETRIES: 5
+      SPRING_FLYWAY_MAX_CONNECTIONS: 3
+
+      # Configurações do Hibernate e JPA
+      SPRING_JPA_SHOW_SQL: 'true'
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: 'true'
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      SPRING_JPA_PROPERTIES_HIBERNATE_CURRENT_SESSION_CONTEXT_CLASS: org.springframework.orm.hibernate5.SpringSessionContext
+      SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_RELEASE_MODE: after_transaction
+
+      # Configurações do servidor
+      SERVER_ERROR_INCLUDE_MESSAGE: always
+      SERVER_ERROR_INCLUDE_STACKTRACE: never
+      SERVER_ERROR_INCLUDE_BINDING_ERRORS: always
+
+      # Configurações do HikariCP
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 10000
+      SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE: 10
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 5
+      SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT: 6000
+      SPRING_DATASOURCE_HIKARI_MAX_LIFETIME: 18000
+
+      # Configurações de transação
+      SPRING_JPA_OPEN_IN_VIEW: 'false'
+      SPRING_TRANSACTION_DEFAULT_TIMEOUT: 10
+      SPRING_TRANSACTION_ROLLBACK_ON_COMMIT_FAILURE: 'true'
+
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
