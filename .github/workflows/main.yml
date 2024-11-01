@@ -19,8 +19,21 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build and test
+      - name: Start application services
+        run: |
+          docker compose -f docker-compose.yml up -d  # Inicia a aplicação e o banco de dados
+
+      - name: Wait for application to be ready
+        run: |
+          # Espera alguns segundos para o serviço subir
+          sleep 10  
+
+      - name: Run tests
         run: mvn clean test
+
+      - name: Stop services
+        if: always()
+        run: docker compose -f docker-compose.yml down  # Finaliza os serviços
 
   deploy:
     runs-on: ubuntu-latest
