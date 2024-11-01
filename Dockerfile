@@ -4,7 +4,7 @@ FROM maven:3.8.8-eclipse-temurin-17 AS build
 # Definir o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copiar os arquivos do projeto de testes para dentro do container
+# Copiar o arquivo pom.xml e o diretório src para dentro do container
 COPY pom.xml .  # Copie o arquivo pom.xml do projeto de testes
 COPY src ./src  # Copie o diretório src do projeto de testes
 
