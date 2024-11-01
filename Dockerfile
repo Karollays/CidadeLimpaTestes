@@ -16,7 +16,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copiar o JAR gerado da fase de build para o container final
-COPY --from=build /app/target/cidadelimpatests-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/CidadeLimpaTests-1.0-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 
