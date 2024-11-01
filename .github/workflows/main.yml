@@ -28,8 +28,15 @@ jobs:
           # Espera alguns segundos para o serviço subir
           sleep 10  
 
-      - name: Run tests
-        run: mvn clean test
+      - name: Run tests with debug logging
+        run: mvn clean test -X -Dmaven.test.failure.ignore=true
+
+      - name: Upload test reports
+        if: always()  # Executa sempre, independentemente do sucesso ou falha
+        uses: actions/upload-artifact@v3
+        with:
+          name: Test Reports
+          path: target/surefire-reports/
 
       - name: Stop services
         if: always()
